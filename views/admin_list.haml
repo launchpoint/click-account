@@ -1,0 +1,7 @@
+%table.horizontal
+  -foreach($users as $u)
+    %tr.body
+      %td
+        +$u->username
+      %td
+        =link_to('switch', admin_switch_user_url($u))

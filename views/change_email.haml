@@ -1,0 +1,21 @@
+.panel
+  .title
+    =se("Change your email")
+  .instructions
+    =se("Your email address is currently")
+    =$current_user->email . "."
+    =se("To change it to something else, we will send a confirmation message to your new address. After you confirm receipt, your email address will be changed.")
+  .body
+    =form_for($current_user)
+    %table
+      %tr
+        %td =se("Current Email")
+        %td =$current_user->email
+      %tr
+        %td =se("New Email")
+        %td =text_field('new_email')
+      %tr
+        %td
+        %td
+          =submit_tag('Send Change Request')
+    =end_form_for()

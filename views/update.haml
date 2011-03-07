@@ -1,0 +1,7 @@
+.panel
+  .title
+    =se("Update Your Account")
+  .instructions
+    =se("Please take a moment to update your account with us.")
+  .body
+    -superform($current_user, $current_user->sections_for('edit'), array('cc_types'=>$cc_types, 'states'=>$states))

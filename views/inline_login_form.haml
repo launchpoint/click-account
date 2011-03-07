@@ -1,0 +1,8 @@
+%form.login{:action=>login_url()."?r=".u('/'.$full_request_path), :method=>'post'}
+  %input.sample{:name=>'user[username]', :type=>'text', :value=>'username'}
+  %input.sample{:name=>'user[password]', :type=>'password', :value=>'password'}
+  =submit_tag('Log In')
+.signup
+  %a{:href=>signup_url()} =se("Sign Up")
+  %br
+  %a{:href=>reset_password_url()} =se("Forgot Password?")

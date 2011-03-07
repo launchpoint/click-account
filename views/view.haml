@@ -1,0 +1,16 @@
+.panel
+  .title
+    .title_left
+      =$user->username
+    .title_right
+      -if($current_user->id == $user->id)
+        %a{:href=>edit_account_url()} =se("edit my settings >>")
+    .clear
+  .body
+    -event('view_account_before_sections', array('user'=>$user))
+    -foreach($tabs as $k=>$tab)
+      .item{:id=>$k}
+        .title
+          =$tab['title']
+        .description
+          =$tab['output']

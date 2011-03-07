@@ -1,0 +1,31 @@
+-if(count($_SESSION['__core']['sessions'])>1)
+  .clickable
+    %select#session_selector
+      -foreach($_SESSION['__core']['sessions'] as $k=>$v)
+        :php
+          $n = $k;
+          if(isset($v['current_user']))
+          {
+            $u = User::find_by_id($v['current_user']);
+            $n = $u->username;
+          }
+        =option_tag($k, $n, $_SESSION['__core']['current_session_id']);
+    :js
+      $(function() {
+        $("#session_selector").change(function()
+        {
+          url = home_url({'__session_id': $(this).val()});
+          window.location = url;
+        });
+      });
+- if (logged_in())
+  .clickable
+    %a{:href=>edit_account_url()} =se("My Account")
+  .clickable
+    %a{:href=>logout_url()} =se("Log Out")
+- else
+  .clickable
+    %a{:href=>login_url()} =se("Log In")
+  -if(!array_key_exists('invitation_only', $account_settings) || !$account_settings['invitation_only'])
+    .clickable
+      %a{:href=>signup_url()} =se("Sign Up")

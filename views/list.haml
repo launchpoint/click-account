@@ -1,0 +1,24 @@
+.panel
+  .title
+    .title_left
+      =se("User Search")
+    .title_right
+    .clear
+  .body
+    %form{:method=>"post", :id=>"frmUserSearch"}
+      %input{:type=>"text", :name=>"q"}
+      %button{:type=>"submit"} Search
+    -if($users)
+      %table{:style=>"width:100%;"}
+        %tr
+          %th
+            User Name
+          %th
+            Email
+        -foreach($users as $user)
+          %tr
+            %td
+              %a{:href=>"/account/".$user->id."/edit"}
+                +$user->username
+            %td
+              +$user->email

@@ -1,0 +1,36 @@
+.panel
+  .title
+    .title_left
+      =se("User Account")
+    .title_right
+    .clear
+  .body
+    .tabs
+      %ul
+        -foreach($edited_user->form_fields as $section_name=>$fields)
+          %li
+            %a{:href=>"#{$section_name}_info"} =se($section_name . " Settings")
+        -foreach($tabs as $k=>$tab)
+          %li
+            %a{:href=>"#$k"} =se($tab['title'])
+      -foreach($edited_user->form_fields as $section_name=>$fields)
+        .tab{:id=>$section_name."_info"}
+          =form_for($edited_user, '?tab='.u($section_name.'_info'), "", false)
+          -event('superform_section', array('section_name'=>$section_name, 'fields'=>$fields, 'obj'=>$edited_user, 'cc_types'=>$cc_types, 'states'=>$states))
+          =submit_tag('Save '.$section_name)
+          =end_form_for()
+          -if($section_name == "account")
+            %br
+            %form{:method=>"post", :id=>"frmResendConfirmation"}
+              %button{:type=>"submit", :id=>"frmResendConfirmationSubmit", :name=>"frmResendConfirmationSubmit"}
+                Resend Activation Email
+              %button{:type=>"submit", :id=>"frmResetPasswordSubmit", :name=>"frmResetPasswordSubmit"}
+                Initiate Password Reset
+      -foreach($tabs as $k=>$tab)
+        .tab{:id=>$k}
+          =$tab['output']
+    -if(q('tab'))
+      :js
+        $(document).ready( function() {
+          $('.tabs').tabs('select', '<?=q('tab')?>');
+        });      

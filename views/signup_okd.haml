@@ -1,0 +1,14 @@
+.panel
+  .title
+    =se("Signup")
+  .instructions
+    =se("Sign up by completing the fields below.")
+  .body
+    -superform($user, $user->form_fields, array('cc_types'=>$cc_types, 'states'=>$states, 'countries'=>$countries, 'referred_bys'=>$referred_bys, 'industries'=>$industries))
+    -$pa=Page::find_by_name('tos', array('order'=>'created_at DESC', 'limit'=>1))
+    %div{:id=>"tostmp", :style=>"display:none;"}
+      =$pa->body
+    :js
+      $(document).ready(function() {
+        $("#tos").html($("#tostmp").html());
+      });

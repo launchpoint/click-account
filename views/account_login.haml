@@ -1,0 +1,44 @@
+.panel.login
+  .title
+    =se("Sign Up Or Log In")
+  .instructions
+    =se("signup and login instructions")
+  .body
+    =form_for($user)
+    %table
+      %tr
+        %td =se("Username or Email")
+        %td
+          -if (in($run_mode,RUN_MODE_DEVELOPMENT,RUN_MODE_STAGING))
+            %select{:name=>'user[username]'}
+              -foreach($users as $u)
+                %option{:value=>$u->username}
+                  +$u->username
+                  -if(count($u->roles)>0)
+                    = "(" . join(", ", collect($u->roles,'name')) . ")"
+          -else
+            =text_field('username')
+      %tr
+        %td =se("Password")
+        %td
+          -if ($run_mode==RUN_MODE_DEVELOPMENT)
+            -$user->password='password';
+            =password_field('password')
+          -else
+            =password_field('password')
+      %tr
+        %td
+        %td
+          =submit_tag('Log In')
+          -if(!array_key_exists('invitation_only', $account_settings) || !$account_settings['invitation_only'])
+            or 
+            :php
+              $args = array();
+              if(p('r')) $args['r'] = p('r');
+            %a{:href=>signup_url($args)}
+              =se('Sign Up')
+          %br
+          %a{:href=>reset_password_url()}
+            =se('Forgot your password?')
+    =end_form_for()
+    
